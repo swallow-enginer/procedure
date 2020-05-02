@@ -44,9 +44,9 @@
 <script>
   const MAX_COUNT = 500;
   const COLORS = [
-    {"light-blue"   : 0}
-    , {"yellow" : 90}
-    , {"red"    : 100}
+    {"light-blue" : 0}
+    , {"yellow"   : 90}
+    , {"red"      : 100}
   ];
   export default {
     data () {
@@ -84,6 +84,11 @@
         return "次へ";
       }
     },
+    watch: {
+      answer: function() {
+        this.changeAnswer();
+      }
+    },
     methods: {
       isComplete: function () {
         return this.no < this.index;
@@ -116,6 +121,9 @@
       backTab: function () {
         this.$emit("backTab");
       },
+      changeAnswer: function() {
+        this.$emit("changeAnswer", this.answer);
+      }
     }
   }
 </script>

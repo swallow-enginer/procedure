@@ -12,6 +12,7 @@
       description="説明"
       @nextTab="nextTab()"
       @backTab="backTab()"
+      @changeAnswer="changeAnswer"
     ></InputStep>
   </v-stepper>
 </template>
@@ -22,8 +23,12 @@
     data () {
       return {
         steps: 3,
-        index: 1
+        index: 1,
+        answerList: null
       }
+    },
+    created : function() {
+      this.answerList = new Array(this.steps);
     },
     components: {
       InputStep
@@ -34,6 +39,9 @@
       },
       backTab: function() {
         this.index--;
+      },
+      changeAnswer: function(answer) {
+        this.answerList[this.index - 1] = answer;
       },
     }
   }

@@ -3,13 +3,10 @@
     vertical
     v-model="index">
     <InputStep
-      v-for="i in steps"
+      v-for="i in $store.state.steps"
       :key="i"
       :no="i"
       :index="index"
-      :steps="steps"
-      question="質問"
-      description="説明"
       @nextTab="nextTab()"
       @backTab="backTab()"
       @changeAnswer="changeAnswer"
@@ -22,13 +19,17 @@
   export default {
     data () {
       return {
-        steps: 3,
-        index: 1,
-        answerList: null
+        index: 1
       }
     },
     created : function() {
-      this.answerList = new Array(this.steps);
+      this.$store.commit(
+        'setSteps'
+        , {
+          steps: 3
+        }
+      )
+      this.newQaList();
     },
     components: {
       InputStep
@@ -43,6 +44,28 @@
       changeAnswer: function(answer) {
         this.answerList[this.index - 1] = answer;
       },
+      newQaList: function() {
+        if (this.$store.state.step == this.$store.state.qaList.length) {
+          return;
+        }
+        
+        for (let i = 0; i < this.$store.state.steps; i++) {
+          this.$store.commit(
+              'addQa'
+              , {
+                question   : "",
+                answer     : "",
+                description: "",
+              }
+          );
+        }
+      }
     }
   }
 </script>
+
+<style scoped>
+  .v-stepper {
+    box-shadow:none;
+  }
+</style>

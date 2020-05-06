@@ -6,7 +6,6 @@
     >
       {{question}}
     </v-stepper-step>
-
     <v-stepper-content
       :step="no">
       <p>
@@ -24,11 +23,13 @@
         :disabled="isFirst()"
         @click="backTab()"
       >戻る</v-btn>
+      <router-link to="/confirm">
         <v-btn
+          @click="nextTab"
           class="ml-2"
           color="primary"
-          @click="nextTab()"
         >{{nextButtonStr}}</v-btn>
+      </router-link>
       <v-progress-circular
         class="ml-2"
         size="16"
@@ -49,11 +50,6 @@
     , {"red"      : 100}
   ];
   export default {
-    data () {
-      return {
-        answer: ""
-      }
-    },
     props: {
       index: {
         Number,
@@ -63,20 +59,32 @@
         Number,
         required: true
       },
-      question: {
-        String,
-        required: true
-      },
-      description: {
-        String,
-        required: true
-      },
-      steps: {
-        Number,
-        required: true
-      },
     },
     computed: {
+      answer: {
+        get() {
+          return this.$store.state.qaList[this.no -1].answer;
+        },
+        set(value) {
+          this.$store.commit(
+            'setAnswer'
+            , {
+              answer: value
+              , no  : this.no - 1
+            }
+          );
+        },
+        question: {
+          get() {
+            return this.$store.state.qaList[this.no -1].question;
+          }
+        },
+        description: {
+          get() {
+            return this.$store.state.qaList[this.no -1].description;
+          }
+        }
+      },
       nextButtonStr: function() {
         if (this.isLast()) {
           return "完了";
@@ -113,17 +121,25 @@
         return this.no == 1;
       },
       isLast: function() {
-        return this.no == this.steps;
+        return this.no == this.$store.state.steps;
       },
-      nextTab: function () {
+      nextTab: function (e) {
+        if (!this.isLast()) {
+          e.preventDefault();
+        }
+        
         this.$emit("nextTab");
       },
       backTab: function () {
         this.$emit("backTab");
       },
-      changeAnswer: function() {
-        this.$emit("changeAnswer", this.answer);
-      }
+      // changeAnswer: function() {
+      //   this.$store.commit('setAnswer', {
+      //     answer: this.answer,
+      //     no: this.no
+      //   })
+        
+      // }
     }
   }
 </script>

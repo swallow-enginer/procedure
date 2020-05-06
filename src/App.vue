@@ -37,8 +37,10 @@
       </v-btn>
     </v-app-bar>
 
-    <v-content>
-      <router-view/>
+    <v-content class="px-10 my-5">
+      <v-slide-y-reverse-transition mode="out-in">
+        <router-view/>
+      </v-slide-y-reverse-transition>
     </v-content>
   </v-app>
 </template>

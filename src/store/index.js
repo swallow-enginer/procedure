@@ -14,11 +14,13 @@ export default new Vuex.Store({
   },
   getters: {
     titleList: (state) => (count) => {
-      if (state.stepList.length != count) {
+      
+      if (state.titleList.length != 0) {
         return state.titleList;
       }
+      
       let result = []
-      for (let i in count) {
+      for (let i = 0; i < count; i++) {
         result.push(new Title(i + 1, "タイトル", "5/6"));
       }
       state.titleList = result;

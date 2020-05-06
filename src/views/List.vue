@@ -11,18 +11,18 @@
         <v-subheader>{{listTitle}}</v-subheader>
         <v-list-item-group color="primary">
           <v-list-item
-            v-for="(item, i) in titleList"
+            v-for="(title, i) in titleList"
             :key="i"
             :inactive="inactive"
           >
             <v-list-item-avatar>
-              <i class="fa-stack fa-lg">
-                <i class="fas fa-circle primary"></i>
-                <span class="white--text">{{title.no}}</span>
-              </i>
+              <span class="fa-stack fa-lg">
+                <i class="fas fa-circle primary--text"></i>
+                <b class="white--text fa-stack-1x">{{title.no}}</b>
+              </span>
             </v-list-item-avatar>
             <v-list-item-content>
-              <v-list-item-title>{{item.title}}</v-list-item-title>
+              <v-list-item-title>{{title.title}}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </v-list-item-group>
@@ -33,6 +33,7 @@
 <script>
   export default {
     data: () => ({
+      listTitle:"人気順"
     }),
     computed: {
       titleList: {
@@ -43,3 +44,10 @@
     }
   }
 </script>
+
+<style lang="scss">
+  .fa-stack-1x {
+  /* 中のテキストのバランスは ↓ を好みで調整 */
+  font-size: 0.7em;
+}
+</style>
